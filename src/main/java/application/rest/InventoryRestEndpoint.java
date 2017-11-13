@@ -15,29 +15,35 @@
  *******************************************************************************/ 
 package application.rest;
 
+import java.util.List;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 
-import io.swagger.annotations.Api;
+import application.data.ProductDAO;
+import application.dto.Product;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@ApplicationPath("rest")
+@ApplicationPath("/api")
 @Path("/")
-@Api(description = "Sample REST application")
-public class LibertyRestEndpoint extends Application {
+public class InventoryRestEndpoint extends Application {
+
+    static ProductDAO productDao = new ProductDAO();
 
     @GET
-    @Path("/")
-    @ApiOperation(value = "A sample REST endpoint",
-                  notes = "GET operation of a sample REST endpoint")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "successful operation") })
-    public String hello() {
-        return "Hello from the REST endpoint!";
+    @Path("/products")
+    @ApiOperation(value = "REST endpoint for Products",
+                  notes = "GET operation to list the product catalog")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Products found"),
+                            @ApiResponse(code = 404, message = "No products found")})              
+    public Response listProducts() {
+        List<Product> products = productDao.findProducts();
+        return Response.ok(products.toArray(new Product[products.size()])).build();
     }
 
 }
