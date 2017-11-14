@@ -5,6 +5,8 @@
       <feature>jsonp-1.0</feature>
       <feature>servlet-3.1</feature>
       <feature>apiDiscovery-1.0</feature>
+      <feature>jndi-1.0</feature>
+	  <feature>jdbc-4.1</feature>
   </featureManager>
 
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
@@ -16,5 +18,12 @@
       <user name="guest" password="password" />
   </basicRegistry>
 
-
+  <library id="MySQLLib">
+     <fileset dir="${shared.resource.dir}/mysql" includes="*.jar" />
+  </library>
+  
+  <dataSource jndiName="jdbc/inventory" transactional="false" id="datasource">
+      <jdbcDriver libraryRef="MySQLLib" />
+      <properties user="admin" password="JXPYIRNRKSYORLSR" databaseName="bmix-syd-yp-013f4eda-fc5b-4e75-b780-6a4ba269d71c" URL="jdbc:mysql://bluemix-sandbox-dal-9-portal.6.dblayer.com:30516/compose" />
+  </dataSource>
 </server>
