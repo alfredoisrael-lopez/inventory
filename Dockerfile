@@ -12,3 +12,9 @@ RUN \
     && java -jar /tmp/license.jar -acceptLicense /opt/ibm \
     && rm /tmp/license.jar; \
   fi
+
+# RUN cd /opt/ibm/wlp/usr/shared/resources/ && ls -laF && pwd
+RUN mkdir /opt/ibm/wlp/usr/shared/resources/mysql
+# RUN cd /opt/ibm/wlp/usr/shared/resources/mysql && pwd
+COPY /target/liberty/wlp/usr/shared/resources/mysql/mysql.jar /opt/ibm/wlp/usr/shared/resources/mysql
+RUN cd /opt/ibm/wlp/usr/shared/resources/mysql && ls -laF
